@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.JsonResult;
 import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +18,34 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/getUserList")
-    public Map<String,Object> getUserList(){
+    public JsonResult<Map<String,Object>> getUserList(){
         Map<String,Object> map = new HashMap<>();
         map.put("userlist",userService.getUserList());
-        return map;
+        return new JsonResult<>(map);
     }
 
     @RequestMapping("/addUser")
-    public void addUser(@RequestParam("username") String username,@RequestParam("pwd") String pwd){
+    public JsonResult<Object> addUser(@RequestParam("username") String username,@RequestParam("pwd") String pwd){
         Map<String,Object> map = new HashMap<>();
         map.put("username",username);
         map.put("pwd",pwd);
         userService.addUser(map);
+        return new JsonResult<>();
     }
 
     @RequestMapping("/updateUser")
-    public void updateUser(@RequestParam("userid") int userid,@RequestParam("username") String username){
+    public JsonResult<Object> updateUser(@RequestParam("userid") int userid,@RequestParam("username") String username){
         Map<String,Object> map = new HashMap<>();
         map.put("userid",userid);
         map.put("username",username);
         userService.updateUser(map);
+        return new JsonResult<>();
     }
 
     @RequestMapping("/deleteUser")
-    public void deleteUser(@RequestParam("userid") int userid){
+    public JsonResult<Object> deleteUser(@RequestParam("userid") int userid){
         userService.deleteUser(userid);
+        return new JsonResult<>();
     }
 
 }
